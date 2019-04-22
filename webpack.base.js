@@ -11,21 +11,19 @@ const plugins = [
 		template: "./index.html"
 	}),
 	// 2.0版本默认清除dist文件夹的内容
-	new CleanWebpackPlugin()
+	new CleanWebpackPlugin(),
+
+
 ];
 if (process.argv.indexOf("-analy") !== -1) {
 	plugins.push(new BundleAnalyzerPlugin());
 }
 
 module.exports = {
-	mode: "production",
 	entry: "./src/index.js",
 	output: {
-		filename: "output.js",
-		chunkFilename: "[name].js",
 		path: path.resolve(__dirname, "dist")
 	},
-	devtool: "cheap-module-source-map",
 	module: {
 		rules: [
 			{
@@ -49,7 +47,7 @@ module.exports = {
 						}
 					}
 				]
-			},
+			}
 			// {
 			// 	test: /\.(png|jpg|gif|jepg)$/i,
 			// 	use: [
@@ -62,21 +60,11 @@ module.exports = {
 			// 		}
 			// 	]
 			// },
-
-			{
-				test: /\.(css)$/,
-				use: ["style-loader", "css-loader", "postcss-loader"]
-			}
 		]
 	},
 	plugins,
-	devServer: {
-		contentBase: "dist",
-		port: 3000,
-		open: true,
-		hot: true
-	},
 	optimization: {
+		runtimeChunk: 'single',
 		minimizer: [
 			new TerserWebpackPlugin({
 				cache: true,
@@ -89,11 +77,17 @@ module.exports = {
 			minChunks: 2,
 			name: true,
 			cacheGroups: {
+				vendors:{
+					test:/[\\/]node_modules[\\/]/,
+					priority: -10,
+      				name: 'vendors',
+				},
 				common: {
 					priority: 0,
 					minChunks: 2,
 					minSize: 10
-				}
+				},
+
 			}
 		}
 	}
