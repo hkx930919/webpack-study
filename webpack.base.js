@@ -5,7 +5,6 @@ const TerserWebpackPlugin = require("terser-webpack-plugin");
 
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
 	.BundleAnalyzerPlugin;
-console.log("*************", process.argv);
 const plugins = [
 	new HtmlWebpackPlugin({
 		template: "./index.html"
