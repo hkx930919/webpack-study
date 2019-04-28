@@ -10,13 +10,10 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const { getPages } = require('./webapck.util')
-const PAGES_DIR = './src/pages/'
+const { PAGES_DIR } = require('./webpack.const')
 // 多页面入口
 const entry = {}
 const plugins = [
-	// new HtmlWebpackPlugin({
-	// 	template: './index.html'
-	// }),
 	// 2.0版本默认清除dist文件夹的内容
 	new CleanWebpackPlugin(),
 	new VueLoaderPlugin()
@@ -47,7 +44,7 @@ getPages().forEach(dir => {
 	})
 	plugins.push(webpackPlugin)
 })
-
+// 是否push分析插件
 if (process.argv.indexOf('-analy') !== -1) {
 	plugins.push(new BundleAnalyzerPlugin())
 }

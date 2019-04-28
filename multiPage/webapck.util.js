@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const PAGES_DIR = './src/pages/'
+const { PAGES_DIR } = require('./webpack.const')
 // 获取文件夹名称
 function getPages() {
 	return fs.readdirSync(PAGES_DIR).filter(dir => {
