@@ -24,7 +24,8 @@ getPages().forEach(dir => {
 	/**
 	 * ! 多页面的多个入口
 	 */
-	entry[dir] = [`${PAGES_DIR}${dir}/index.js`]
+
+	entry[`${dir}`] = [`${PAGES_DIR}${dir}/index.js`]
 
 	/**
 	 *  @`runtime~${dir}` webpack runtime文件，在optimization.runtimeChunk中用函数配置

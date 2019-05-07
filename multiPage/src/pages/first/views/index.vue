@@ -18,6 +18,7 @@ export default {
   },
   created() {
     console.log("first");
+    console.log("first2");
   }
 };
 </script>

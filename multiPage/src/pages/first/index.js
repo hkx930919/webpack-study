@@ -12,6 +12,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import Vue from 'vue'
+console.log(1)
 
 new Vue({
 	el: '#first',

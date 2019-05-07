@@ -30,3 +30,5 @@ util.warn(2)
 util.error(3)
 util.add(2, 9)
 util.reduce(2, 9)
+
+console.log(111)

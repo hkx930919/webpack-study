@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+// 交互式命令行
+const inquirer = require('inquirer')
+// 修改控制台字符串的样式
+const chalk = require('chalk')
+// node 内置文件模块
+const fs = require('fs')
+// 读取根目录下的 template.json
+const TMP_OBJ = require(`${__dirname}/../template`)
+
+const QUESTION = [
+  {
+    name: 'name',
+    type: 'input',
+    message: '请输入模板名称',
+    validate(val) {
+      if (val === '') {
+        return 'Name is required!'
+      } else if (!TMP_OBJ[val]) {
+        return "template don't exist"
+      } else {
+        return true
+      }
+    }
+  }
+]
+inquirer.prompt(QUESTION).then(answers => {
+  const { name } = answers
+  // 过滤 unicode 字符
+  delete TMP_OBJ[name]
+  fs.writeFile(
+    `${__dirname}/../template.json`,
+    JSON.stringify(TMP_OBJ),
+    'utf-8',
+    err => {
+      if (err) {
+        console.log(err)
+      } else {
+        console.log('\n')
+        console.log(chalk.green('delete successfully!\n'))
+        console.log(chalk.grey('The latest template list is: \n'))
+        console.log(TMP_OBJ)
+        console.log('\n')
+      }
+    }
+  )
+})

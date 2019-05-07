@@ -18,6 +18,7 @@ export default {
   },
   created() {
     console.log("second");
+    
   }
 };
 </script>

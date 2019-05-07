@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+const program = require('commander')
+const download = require('download-git-repo')
+// 好看的加载
+const ora = require('ora')
+// 修改控制台字符串的样式
+const chalk = require('chalk')
+// node 内置文件模块
+const fs = require('fs')
+// 读取根目录下的 template.json
+const TMP_OBJ = require(`${__dirname}/../template`)
+
+program.usage('<template-name> [project-name]')
+program.parse(process.argv)
+if (process.argv < 1) return program.help()
+
+// 好比 vue init webpack project-name 的命令一样，第一个参数是 webpack，第二个参数是 project-name
+let templateName = program.args[0]
+let projectName = program.args[1]
+// 小小校验一下参数
+if (!TMP_OBJ[templateName]) {
+  console.log(chalk.red('\n Template does not exit! \n '))
+  return
+}
+if (!projectName) {
+  console.log(chalk.red('\n Project should not be empty! \n '))
+  return
+}
+const url = TMP_OBJ[templateName]
+console.log(chalk.white('\n Start generating... \n'))
+// 出现加载图标
+const spinner = ora('Downloading...')
+spinner.start()
+// 执行下载方法并传入参数
+console.log(chalk.blue(`https://github.com/hkx930919/${url}`))
+download(`https://github.com/hkx930919/${url}`, projectName, err => {
+  if (err) {
+    spinner.fail()
+    console.log(chalk.red(`Generation failed. ${err}`))
+    return
+  }
+  // 结束加载图标
+  spinner.succeed()
+  console.log(chalk.green('\n Generation completed!'))
+  console.log('\n To get started')
+  console.log(`\n    cd ${projectName} \n`)
+})
