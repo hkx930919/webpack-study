@@ -1,6 +1,7 @@
 const { join } = require('path')
 const fs = require('fs-extra')
 const glob = require('glob')
+import {} from '../../'
 
 // 删除page模本文件夹
 async function delPageTplDir() {
@@ -10,13 +11,15 @@ async function delPageTplDir() {
 // 获取page模板列表
 function getPageTplList() {
   const list = []
-  glob.sync('src/*', { cwd: join(__dirname, '../../template') }).forEach(name => {
-    name = name.substring(4)
-    if (!['static', '__BASE__'].includes(name)) {
-      const des = getPageDescribe(name)
-      list.push(name + (des ? ` --> ${des}` : ''))
-    }
-  })
+  glob
+    .sync('src/*', { cwd: join(__dirname, '../../template') })
+    .forEach(name => {
+      name = name.substring(4)
+      if (!['static', '__BASE__'].includes(name)) {
+        const des = getPageDescribe(name)
+        list.push(name + (des ? ` --> ${des}` : ''))
+      }
+    })
   return list
 }
 // 获取page备注信息
@@ -48,7 +51,8 @@ function isPageExist(pageName) {
   const cwd = process.cwd()
   return (
     !!pageName &&
-    (fs.pathExistsSync(join(cwd, `page/${pageName}.html`)) || fs.pathExistsSync(join(cwd, `src/${pageName}`)))
+    (fs.pathExistsSync(join(cwd, `page/${pageName}.html`)) ||
+      fs.pathExistsSync(join(cwd, `src/${pageName}`)))
   )
 }
 // 模本是否存在

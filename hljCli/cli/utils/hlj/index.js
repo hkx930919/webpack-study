@@ -48,16 +48,21 @@ function getHljServerVersion(name = vueServerNpmName) {
   return shellSync(`npm view ${name} version`).stdout
 }
 function setPkgJson(projectName, serverNpmName = vueServerNpmName) {
+  // 获取 hlj 最新版本
   const latestVer = getHljServerVersion(serverNpmName)
+  // git 用户名
   const { stdout } = shellSync('git config user.name')
   const packagePath = join(process.cwd(), projectName, 'package.json')
+  // 获取package.json 文件
   const pkgJson = require(packagePath)
   pkgJson.name = projectName
   pkgJson.author = stdout
+  // 设置依赖
   pkgJson.devDependencies[serverNpmName] = latestVer
   if (pkgJson.dependencies && pkgJson.dependencies[serverNpmName]) {
     delete pkgJson.dependencies[serverNpmName]
   }
+  // 重写项目package.json文件
   fs.writeFileSync(packagePath, JSON.stringify(pkgJson, null, 2))
 }
 function shouldUpdateHljServer(name = vueServerNpmName) {

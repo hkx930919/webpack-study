@@ -17,6 +17,7 @@ module.exports = async function() {
   if (type !== 'vue') {
     return warning(`\n page 命令目前只适用于cli创建的vue多页面工程`)
   }
+
   let pageName = process.argv[3] || ''
   if (!pageName.trim()) {
     const { _pageName } = await inquirer.prompt([
@@ -49,7 +50,12 @@ async function createPage(pageName) {
   createSpinner.start()
   try {
     await delPageTplDir()
-    await shell(`git clone -b master ${vuePageGitPath} ${join(__dirname, '../../template')}`)
+    await shell(
+      `git clone -b master ${vuePageGitPath} ${join(
+        __dirname,
+        '../../template'
+      )}`
+    )
     const list = getPageTplList()
     createSpinner.stop()
     if (!list.length) {
@@ -67,7 +73,9 @@ async function createPage(pageName) {
     ])
     const targetPagePath = join(cwd, 'page')
     const targetSrcPath = join(cwd, 'src')
-    const { __html, __src } = getPageTplPath(pageTpl.substring(0, pageTpl.indexOf('-->')).trim())
+    const { __html, __src } = getPageTplPath(
+      pageTpl.substring(0, pageTpl.indexOf('-->')).trim()
+    )
     await fs.copy(__html, join(targetPagePath, pageName + '.html'))
     await fs.copy(__src, join(targetSrcPath, pageName))
     setPageNameOfHljConfig(pageName, true)

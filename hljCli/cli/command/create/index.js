@@ -1,5 +1,8 @@
 const inquirer = require('inquirer')
 
+/**
+ * 询问创建的 目录名 和 类型
+ */
 module.exports = async function() {
   let projectName = process.argv[3] || ''
   if (!projectName.trim()) {
@@ -24,6 +27,9 @@ module.exports = async function() {
       choices: ['vue', 'react']
     }
   ])
+  /**
+   * 执行创建
+   */
   switch (projectType) {
     case 'vue':
       require('./vue')(projectName)
@@ -32,4 +38,3 @@ module.exports = async function() {
       require('./react')(projectName)
   }
 }
-

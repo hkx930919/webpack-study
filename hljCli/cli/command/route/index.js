@@ -35,7 +35,9 @@ module.exports = async function() {
     const { _pageName } = await inquirer.prompt([
       {
         type: 'input',
-        message: pageName ? `页面'${pageName}'不存在，重新输入：` : '你需要给哪个页面创建路由：',
+        message: pageName
+          ? `页面'${pageName}'不存在，重新输入：`
+          : '你需要给哪个页面创建路由：',
         name: '_pageName',
         validate(val = '') {
           val = val.trim().toLowerCase()
